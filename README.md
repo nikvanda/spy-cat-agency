@@ -1,6 +1,7 @@
 To run this app you need:
-
 Python3.12
+.env 
+You can find env file here: https://drive.google.com/file/d/1Lvap8oF6iMKGDqxS7--oTqTOykx6wgKM/view?usp=sharing
 
 Create venv:
 Linux/MacOS:
