@@ -29,8 +29,25 @@ class TargetSerializer(serializers.ModelSerializer):
         exclude = ('id', )
 
 
+class RelatedTargetSerializer(TargetSerializer):
+    class Meta(TargetSerializer.Meta):
+        exclude = ('id', 'mission')
+
+
 class MissionSerializer(serializers.ModelSerializer):
-    targets = TargetSerializer(many=True)
+    targets = RelatedTargetSerializer(many=True, required=False)
+
+    def validate_empty_values(self, data):
+        return True, data
+
+    def create(self, validated_data):
+        targets_data = validated_data.pop('targets')
+        cat = SpyCat.objects.get(id=validated_data.pop('spy_cat'))
+        mission = Mission.objects.create(**validated_data, spy_cat=cat)
+        targets = [Target.objects.create(**data, mission=mission) for data in targets_data]
+        for target in targets:
+            target.save()
+        return mission
 
     class Meta:
         model = Mission

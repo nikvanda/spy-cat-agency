@@ -21,19 +21,19 @@ class SpyCatView(ModelViewSet):
     # TODO: put validation to a decorator
     def create(self, request, *args, **kwargs):
         try:
-            super().create(request, *args, **kwargs)
+            return super().create(request, *args, **kwargs)
         except IntegrityError:
             return Response({'error': 'Salary must be more than 0!'}, status=400)
 
     def partial_update(self, request, *args, **kwargs):
         try:
-            super().partial_update(request, *args, **kwargs)
+            return super().partial_update(request, *args, **kwargs)
         except IntegrityError:
             return Response({'error': 'Salary must be more than 0!'}, status=400)
 
     def update(self, request, *args, **kwargs):
         try:
-            super().update(request, *args, **kwargs)
+            return super().update(request, *args, **kwargs)
         except IntegrityError:
             return Response({'error': 'Salary must be more than 0!'}, status=400)
 

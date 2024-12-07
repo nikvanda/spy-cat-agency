@@ -30,9 +30,13 @@ class SpyCat(models.Model):
         using=None,
         update_fields=None,
     ):
-        mission_count = self.objects.filter(mission__is_complete=False).count()
+        mission_count = 0
+        try:
+            mission_count = self.mission.all()
+        except ValueError:
+            pass
         if not mission_count:
-            super().save(*args, force_insert, force_update, using, update_fields)
+            return super().save(*args, force_insert, force_update, using, update_fields)
         raise ValueError('Cat is already on a mission. You cannot and another one.')
 
     def __str__(self):
@@ -40,6 +44,9 @@ class SpyCat(models.Model):
 
 
 class Mission(Task):
+    name = models.CharField(max_length=50, default='tese')
+    is_complete = models.BooleanField(default=False)
+
     spy_cat = models.ForeignKey(SpyCat, on_delete=models.SET_NULL, null=True, related_name='mission')
 
     def __str__(self):
