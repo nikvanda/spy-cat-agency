@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 
-# Create your views here.
+from .models import SpyCat
+from .serializers import SpyCatSerializer
+
+
+class SpyCatView(ModelViewSet):
+    queryset = SpyCat.objects.all()
+    serializer_class = SpyCatSerializer
