@@ -2,12 +2,11 @@ from django.db import IntegrityError
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from .models import SpyCat
-from .serializers import SpyCatSerializer, SpyCatDetailSerializer, SpySalary
+from .models import SpyCat, Mission
+from .serializers import SpyCatSerializer, SpyCatDetailSerializer, SpySalary, MissionSerializer
 
 
 class SpyCatView(ModelViewSet):
-    model = SpyCat
     queryset = SpyCat.objects.all()
 
     def get_serializer_class(self):
@@ -37,3 +36,8 @@ class SpyCatView(ModelViewSet):
             super().update(request, *args, **kwargs)
         except IntegrityError:
             return Response({'error': 'Salary must be more than 0!'}, status=400)
+
+
+class MissionsView(ModelViewSet):
+    queryset = Mission.objects.all()
+    serializer_class = MissionSerializer

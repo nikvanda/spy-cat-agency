@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import SpyCat
+from .models import SpyCat, Mission, Target
 
 
 class SpyCatSerializer(serializers.ModelSerializer):
@@ -21,3 +21,17 @@ class SpySalary(SpyCatSerializer):
     class Meta:
         model = SpyCat
         fields = ('salary',)
+
+
+class TargetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Target
+        exclude = ('id', )
+
+
+class MissionSerializer(serializers.ModelSerializer):
+    targets = TargetSerializer(many=True)
+
+    class Meta:
+        model = Mission
+        exclude = ('id', )
