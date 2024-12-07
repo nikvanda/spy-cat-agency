@@ -2,8 +2,8 @@ from django.db import IntegrityError
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from .models import SpyCat, Mission
-from .serializers import SpyCatSerializer, SpyCatDetailSerializer, SpySalary, MissionSerializer
+from .models import SpyCat, Mission, Target
+from .serializers import SpyCatSerializer, SpyCatDetailSerializer, SpySalary, MissionSerializer, TargetSerializer
 
 
 class SpyCatView(ModelViewSet):
@@ -48,3 +48,8 @@ class MissionsView(ModelViewSet):
         if mission.spy_cat:
             return Response('A mission cannot be deleted if it is already assigned to a cat', status=403)
         super().destroy(request, *args, **kwargs)
+
+
+class TargetView(ModelViewSet):
+    queryset = Target.objects.all()
+    serializer_class = TargetSerializer

@@ -59,5 +59,23 @@ class Target(Task):
 
     mission = models.ForeignKey(Mission, on_delete=models.SET_NULL, null=True, related_name='targets')
 
+    def save(
+        self,
+        *args,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
+
+        super().save(*args, force_insert, force_update, using, update_fields)
+        related_mission = self.mission
+        related_targets_count = related_mission.targets.count()
+        completed_targets = related_mission.targets.filter(is_complete=True).count()
+
+        if related_targets_count == completed_targets:
+            related_mission.is_completed = True
+            related_mission.save()
+
     def __str__(self):
         return self.name
