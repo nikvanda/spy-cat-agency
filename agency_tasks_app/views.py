@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
 from .models import SpyCat
-from .serializers import SpyCatSerializer
+from .serializers import SpyCatSerializer, SpyCatDetailSerializer
 
 
 class SpyCatView(ModelViewSet):

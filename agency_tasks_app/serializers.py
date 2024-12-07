@@ -7,4 +7,10 @@ class SpyCatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SpyCat
-        exclude = ['id']
+        exclude = ('id', 'breed', 'salary')
+
+
+class SpyCatDetailSerializer(SpyCatSerializer):
+
+    class Meta(SpyCatSerializer.Meta):
+        exclude = ('id', )
