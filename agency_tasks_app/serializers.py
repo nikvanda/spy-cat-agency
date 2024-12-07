@@ -14,3 +14,10 @@ class SpyCatDetailSerializer(SpyCatSerializer):
 
     class Meta(SpyCatSerializer.Meta):
         exclude = ('id', )
+
+
+class SpySalary(SpyCatSerializer):
+
+    class Meta:
+        model = SpyCat
+        fields = ('salary',)
