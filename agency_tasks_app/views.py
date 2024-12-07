@@ -41,3 +41,10 @@ class SpyCatView(ModelViewSet):
 class MissionsView(ModelViewSet):
     queryset = Mission.objects.all()
     serializer_class = MissionSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        mission = queryset.get(pk=kwargs['pk'])
+        if mission.spy_cat:
+            return Response('A mission cannot be deleted if it is already assigned to a cat', status=403)
+        super().destroy(request, *args, **kwargs)
