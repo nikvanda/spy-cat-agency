@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  django:
+    container_name: spy_cat_agency
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "python manage.py makemigrations
+      && python manage.py makemigrations calculation
+      && python manage.py makemigrations photo_count
+      && python manage.py makemigrations settings
+      && python manage.py migrate
+      && python manage.py runserver 0.0.0.0:9000"
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
